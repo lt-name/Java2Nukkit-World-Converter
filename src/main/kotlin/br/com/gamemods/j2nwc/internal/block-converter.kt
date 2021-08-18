@@ -149,8 +149,12 @@ internal fun JavaBlock.toNukkit(
                 copyJsonToLegacyTo(nukkitEntity, "CustomName")
                 copyTo(nukkitEntity, "BurnTime")
                 copyTo(nukkitEntity, "CookTime")
-                getNullableShort("CookTimeTotal")?.also {
-                    nukkitEntity["BurnDuration"] = it
+                try {
+                    getNullableShort("CookTimeTotal")?.also {
+                        nukkitEntity["BurnDuration"] = it
+                }
+                }catch (e: Exception) {
+                    println("转换失败：" + blockData.blockId)
                 }
                 toNukkitInventory(worldConverter, nukkitEntity)
             }
